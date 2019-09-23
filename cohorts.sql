@@ -77,6 +77,34 @@ FROM   (SELECT from_cluster,
               ON b.from_cluster = r.cluster_name 
 ORDER  BY 3, 
           1;
+
+#Kandla-Karnal Correction
+SELECT CASE 
+         WHEN customer_type = 'MS Order' THEN customer_type 
+         ELSE 'Non - MS' 
+       END             AS client_type, 
+       a.from_cluster  AS from_cluster_name, 
+       c.cluster_name  AS to_cluster, 
+       qtr_name, 
+       COUNT(order_id) AS orders, 
+       SUM(cost)       AS cost, 
+       SUM(base_cost)  AS base_cost, 
+       SUM(revenue)    AS revenue, 
+       SUM(gmv)        AS gmv, 
+FROM   zinka.table_name a 
+       LEFT JOIN (SELECT * 
+                  FROM   zinka.cluster_mapping 
+                  WHERE  cluster_type = 'From-Cluster') c 
+              ON a.to_city = c.city 
+WHERE  a.from_cluster IN ( 'Kandla', 'Karnal', 'Bareilly' ) 
+       AND c.cluster_name IN ( 'Kandla', 'Karnal', 'Bareilly' ) 
+       AND qtr > 10 
+GROUP  BY 1, 
+          2, 
+          3, 
+          4 
+ORDER  BY 1, 
+          4 ASC; 
           
 #SME Customer Cohort
 SELECT `customer_name`, 
