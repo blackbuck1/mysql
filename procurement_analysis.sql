@@ -1,4 +1,3 @@
-#Lane & qtr level metrics
 SELECT from_city, 
        to_city, 
        from_cluster, 
@@ -12,13 +11,11 @@ SELECT from_city,
        ROUND(SUM(base_cost), 0)                AS base_cost, 
        ROUND(SUM(cost), 0)                     AS cost, 
        ROUND(SUM(tiger_tonnage), 0)            AS tiger_tonnage 
-FROM   zinka.table_name 
+FROM   base_order_v9 
 WHERE  year >= 2017 
        AND qtr <= 15 
 GROUP  BY 1, 
           2, 
           3, 
           4, 
-          5, 
-          6, 
-          7 
+          5
