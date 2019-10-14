@@ -62,17 +62,20 @@ CROSS JOIN
 ORDER BY   2 DESC;
 
 #Cluster Ranking (Quarter)
-DROP TABLEIF EXISTS zinka.cluster_ranking;
-CREATE TABLE zinka.cluster_ranking                       AS 
-SELECT   RANK() OVER(partition BY qtr ORDER BY gmv DESC) AS rnk, 
-         r.* 
-FROM     ( 
-                  SELECT   from_cluster AS cluster_name, 
-                           qtr, 
-                           SUM(gmv) AS gmv 
-                  FROM     zinka.table_name 
-                  WHERE    qtr = 15 
-                  GROUP BY 1, 
-                           2 
-                  ORDER BY 3 DESC ) r;
+CREATE TABLE zlog.cluster_ranking AS 
+  SELECT RANK() 
+           OVER( 
+             partition BY qtr 
+             ORDER BY gmv DESC) AS rnk, 
+         r.cluster_name, 
+         qtr                    AS txn_qtr 
+  FROM   (SELECT from_cluster AS cluster_name, 
+                 qtr, 
+                 Sum(gmv)     AS gmv 
+          FROM   zlog.order_details 
+          WHERE  actual_customer_name NOT IN ( 'Maple Logistics Pvt Limited', 
+                                               'GOSS' ) 
+                 AND from_cluster <> '' 
+          GROUP  BY 1, 
+                    2) r; 
  
