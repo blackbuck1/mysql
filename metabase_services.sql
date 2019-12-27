@@ -195,7 +195,7 @@ GROUP BY 1,2,3,4
 --HAVING SUM(toll+fuel+gps_amt) > 0
 
 
-#Registered FO
+#Registered FO (DB:prod-divum-mysql-slave-redshift)
 select 
 phone_no,
 date_format(date(convert_tz(app_installed_on,'+00:00','+05:30')),'%Y%m%d') as install_dt,
