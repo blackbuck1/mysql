@@ -82,6 +82,14 @@ date_format(date(convert_tz(app_installed_on,'+00:00','+05:30')),'%Y%m') as mont
 #count(distinct id) as verified_user 
 from fleetApp_fleetowner 
 where is_verified = 1
-and date_format(date(convert_tz(app_installed_on,'+00:00','+05:30')),'%Y%m') = 201911
-and date_format(date(convert_tz(app_installed_on,'+00:00','+05:30')),'%Y%m%d') <= 20191124
+and date_format(date(convert_tz(app_installed_on,'+00:00','+05:30')),'%Y%m') = 201912
+and date_format(date(convert_tz(app_installed_on,'+00:00','+05:30')),'%Y%m%d') <= 20191223
 group by 1,2,3
+		     
+#Registered Trucks (DB:prod-divum-mysql-slave-redshift)
+select truck_no,
+date_format(date(convert_tz(created_at,'+00:00','+05:30')),'%Y%m') as registered_at
+from fleetApp_truck
+where is_verified = 1
+and date_format(date(convert_tz(created_at,'+00:00','+05:30')),'%Y%m') = 201912
+and date_format(date(convert_tz(created_at,'+00:00','+05:30')),'%Y%m%d') > 20191225
