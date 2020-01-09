@@ -58,7 +58,7 @@ SELECT truck_type,
        rtkm_tonnage AS capacity 
 FROM   base_trucktype 
 
-#Order Id to Truck & SP Mapping
+# Order Id to Truck & SP Mapping
 
 select a.order_id,
 b.username,
