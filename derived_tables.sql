@@ -62,7 +62,8 @@ CROSS JOIN
 ORDER BY   2 DESC;
 
 #Cluster Ranking (Quarter)
-CREATE TABLE zlog.cluster_ranking AS 
+DROP TABLE IF EXISTS zlog.cluster_rank ;
+CREATE TABLE zlog.cluster_rank AS 
   SELECT RANK() 
            OVER( 
              partition BY qtr 
@@ -78,4 +79,3 @@ CREATE TABLE zlog.cluster_ranking AS
                  AND from_cluster <> '' 
           GROUP  BY 1, 
                     2) r; 
- 
