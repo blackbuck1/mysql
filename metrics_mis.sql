@@ -66,10 +66,10 @@ SELECT
 FROM
    blackbuck_freight.orders 
 WHERE
-   MONTH = 54 
+   month = 54 
    AND customer_type <> 'Delta' 
 GROUP BY
    1,
    2 
 ORDER BY
-   2
+   2;
